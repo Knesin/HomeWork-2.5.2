@@ -61,7 +61,7 @@ public:
 protected:
     Quadrangle(const int& a, const int& b, const int& c, const int& d,
         const int& A, const int& B, const int& C, const int& D, const int& s_c, const std::string& n)
-        :Triangle(a, b, c, A, B, C, 4, "Четырёхугольник"), side_d_(d), angle_d_(D) {};
+        :Triangle(a, b, c, A, B, C, 4, n), side_d_(d), angle_d_(D) {};
 private:
     int side_d_;
     int angle_d_;
