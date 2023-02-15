@@ -6,6 +6,8 @@ public:
     int get_sides_count() { return sides_count_; }
     std::string get_name() { return name_; }
     Figure() : Figure(0, "Фигура") {};
+    virtual void print_sides_() = 0;
+    virtual void print_angles_() = 0;
 protected:
     Figure( const int &s_c, const std::string &n) : sides_count_(s_c), name_(n) {};
 private:
@@ -23,6 +25,8 @@ public:
     int get_angle_a() { return angle_a_; }
     int get_angle_b() { return angle_b_; }
     int get_angle_c() { return angle_c_; }
+    void print_sides_() override;
+    void print_angles_() override;
 protected:
     Triangle(const int& a, const int& b, const int& c, const int& A, const int& B, const int& C, const int& s_c, const std::string& n) 
         : Figure(s_c, n), side_a_(a), side_b_(b), side_c_(c), angle_a_(A), angle_b_(B), angle_c_(C) {};
@@ -34,6 +38,18 @@ private:
     int angle_b_;
     int angle_c_;
 };
+
+void Triangle::print_sides_() {
+    std::cout << " a=" << get_side_a();
+    std::cout << " b=" << get_side_b();
+    std::cout << " c=" << get_side_c();
+}
+
+void Triangle::print_angles_() {
+    std::cout << "\t  A=" << get_angle_a();
+    std::cout << " B=" << get_angle_b();
+    std::cout << " C=" << get_angle_c();
+}
 
 class Right_triangle : public Triangle {
 public:
@@ -58,6 +74,8 @@ public:
         : Quadrangle(a, b, c, d, A, B, C, D, 4, "Четырёхугольник") {};
     int get_side_d() { return side_d_; }
     int get_angle_d() { return angle_d_; }
+    void print_sides_() override;
+    void print_angles_() override;
 protected:
     Quadrangle(const int& a, const int& b, const int& c, const int& d,
         const int& A, const int& B, const int& C, const int& D, const int& s_c, const std::string& n)
@@ -66,6 +84,16 @@ private:
     int side_d_;
     int angle_d_;
 };
+
+void Quadrangle::print_sides_() {
+    Triangle::print_sides_();
+    std::cout << " d=" << get_side_d();
+}
+
+void Quadrangle::print_angles_() {
+    Triangle::print_angles_();
+    std::cout << " D=" << get_angle_d();
+}
 
 class Parallelogram : public Quadrangle {
 public:
@@ -97,42 +125,12 @@ public:
         :Parallelogram(a, a, A, B, "Ромб") {};
 };
 
-void print_info_4 (Quadrangle &f) {
+void print_info(Figure& f) {
     std::cout << f.get_name() << ":" << std::endl;
     std::cout << "Стороны :";
-    if (f.get_sides_count() >= 3) {
-        std::cout << " a=" << f.get_side_a();
-        std::cout << " b=" << f.get_side_b();
-        std::cout << " c=" << f.get_side_c();
-    }
-    if (f.get_sides_count() >= 4) {
-        std::cout << " d=" << f.get_side_d();
-    }
+    f.print_sides_();
     std::cout << std::endl << "Углы:";
-    if (f.get_sides_count() >= 3) {
-        std::cout << "\t  A=" << f.get_angle_a();
-        std::cout << " B=" << f.get_angle_b();
-        std::cout << " C=" << f.get_angle_c() ;
-    }
-    if (f.get_sides_count() >= 4) {
-        std::cout << " d=" << f.get_angle_d();                                   
-    }
-    std::cout << std::endl;
-}
-void print_info_3(Triangle & f) {
-    std::cout << f.get_name() << ":" << std::endl;
-    std::cout << "Стороны :";
-    if (f.get_sides_count() >= 3) {
-        std::cout << " a=" << f.get_side_a();
-        std::cout << " b=" << f.get_side_b();
-        std::cout << " c=" << f.get_side_c();
-    }
-    std::cout << std::endl << "Углы:";
-    if (f.get_sides_count() >= 3) {
-        std::cout << "\t  A=" << f.get_angle_a();
-        std::cout << " B=" << f.get_angle_b();
-        std::cout << " C=" << f.get_angle_c();
-    }
+    f.print_angles_();
     std::cout << std::endl;
 }
 
@@ -149,13 +147,13 @@ int main()
     Rhombus rh(30, 30, 40);
 
     setlocale(LC_ALL, "Russian");
-    print_info_3(t);
-    print_info_3(rt);
-    print_info_3(it);
-    print_info_3(et);
-    print_info_4(q);
-    print_info_4(r);
-    print_info_4(sq);
-    print_info_4(p);
-    print_info_4(rh);
+    print_info(t);
+    print_info(rt);
+    print_info(it);
+    print_info(et);
+    print_info(q);
+    print_info(r);
+    print_info(sq);
+    print_info(p);
+    print_info(rh);
 }
